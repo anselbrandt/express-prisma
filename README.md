@@ -11,6 +11,10 @@ docker build -t anselbrandt/express-prisma:latest .
 docker run --init --rm -p 5000:5000 anselbrandt/express-prisma:latest
 ```
 
+# Typegraphql-Prisma
+
+https://prisma.typegraphql.com/docs/intro
+
 # Develop
 
 ```

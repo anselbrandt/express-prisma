@@ -1,24 +1,23 @@
+import { PrismaClient } from "@prisma/client";
 import { graphqlHTTP } from "express-graphql";
-import { buildSchema } from "graphql";
-import { NoteStore } from "../model/notes";
+import "reflect-metadata";
+import { buildSchema } from "type-graphql";
+import { resolvers } from "../../prisma/generated/type-graphql";
 
-const schema = buildSchema(`
-type Query {
-  hello: String
+interface Context {
+  prisma: PrismaClient;
 }
-`);
 
-const root = {
-  hello: () => {
-    return "Hello world!";
-  },
-};
-
-const graphql = (store: NoteStore) =>
-  graphqlHTTP({
+const graphql = async (prisma: PrismaClient) => {
+  const schema = await buildSchema({
+    resolvers: resolvers,
+    validate: false,
+  });
+  return graphqlHTTP({
     schema: schema,
-    rootValue: root,
+    context: (): Context => ({ prisma }),
     graphiql: true,
   });
+};
 
 export default graphql;
