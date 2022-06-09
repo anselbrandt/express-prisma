@@ -9,11 +9,13 @@
   "scripts": {
     "migrate": "prisma migrate dev --name init",
     "gen": "prisma generate",
+    "buildweb": "cd web && yarn && yarn build",
     "clean": "rm -rf ./dist",
     "copy": "mkdir -p dist/public && cp ./public/*.* ./dist/public/",
     "build": "yarn clean && yarn copy && tsc",
     "watch": "yarn clean && yarn copy && tsc -w",
     "dev": "nodemon dist/src/index.js",
+    "postinstall": "yarn gen && yarn migrate && yarn buildweb",
     "start": "node dist/src/index.js"
   },
   "dependencies": {
